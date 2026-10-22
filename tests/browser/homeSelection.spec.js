@@ -21,7 +21,8 @@ test("homepage glass panel keeps aligned controls and readable type across viewp
     await expect(input).toHaveCSS("font-size", "16px");
     await expect(page.locator(".seat-input-shell")).toHaveCSS("min-height", "52px");
     if (viewport.height > 480) await page.screenshot({ path: `output/playwright/glass-home-${viewport.width}.png`, fullPage: true });
-    await page.getByRole("button", { name: "Enter Simulation" }).click();
+    await expect(page.getByText("พิมพ์รหัสที่นั่ง หรือเลือกจากผังโรง", { exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
     await expect(page.getByRole("alert")).toBeVisible();
     await input.fill("A2");
     await expect(page.getByRole("listbox")).toBeInViewport();
@@ -49,7 +50,7 @@ test("carousel selects upcoming venues, clears seats and retains the fixed backd
   await expect(upcoming).toBeFocused(); await expect(upcoming).toHaveAttribute("aria-checked", "true");
   await expect(input).toHaveValue(""); await expect(input).toBeDisabled();
   await expect(page.getByRole("button", { name: "เลือกจากผังโรง" })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Enter Simulation" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" })).toBeDisabled();
   await upcoming.press("End");
   await expect(page.getByRole("radio", { name: "เมเจอร์ รังสิต (Coming Soon)", exact: true })).toHaveAttribute("aria-checked", "true");
   await expect(page.getByRole("button", { name: "โรงถัดไป" })).toBeDisabled();
@@ -110,7 +111,7 @@ test("map selection restores its origin after exit, Escape and browser Back", as
   await page.getByRole("button", { name: /^ที่นั่ง A4 แถว/ }).click();
   await page.getByRole("button", { name: "ยืนยันที่นั่ง" }).click();
   for (const exit of ["button", "escape", "back"]) {
-    await page.getByRole("button", { name: "Enter Simulation" }).click();
+    await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
     await expect(page).toHaveURL(/experience\?seat=TEST-A-4$/); await expect(page.locator("canvas")).toBeVisible();
     if (exit === "button") await page.getByRole("button", { name: "กลับหน้าแรก" }).click();
     else if (exit === "escape") await page.keyboard.press("Escape");

@@ -17,8 +17,8 @@ export class RenderBoundary extends Component {
   render() {
     return this.state.failed ? (
       <div className="webgl-error" role="alert">
-        ไม่สามารถแสดงฉาก 3D ได้ กรุณาเปิดการเร่งความเร็วกราฟิกในเบราว์เซอร์
-        หรือกลับหน้าแรกเพื่อเลือกที่นั่ง
+        โหมด 3D ไม่พร้อมใช้งาน กำลังแสดงมุมมองสำรอง
+        กรุณาเปิดการเร่งความเร็วกราฟิกเพื่อรับประสบการณ์เต็มรูปแบบ
       </div>
     ) : (
       this.props.children
@@ -96,7 +96,7 @@ export default function Experience({ config, seat, selectedSeats = [seat], onSea
           camera={{ near: 0.05, far: 150 }}
           fallback={
             <div className="webgl-error" role="alert">
-              ไม่สามารถแสดงฉาก 3D ได้ กรุณาเปิดการเร่งความเร็วกราฟิกในเบราว์เซอร์
+              โหมด 3D ไม่พร้อมใช้งาน กำลังแสดงมุมมองสำรอง
             </div>
           }
         >

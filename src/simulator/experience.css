@@ -112,14 +112,14 @@
   .simulation-seat-navigation button { padding: 8px; font-size: 12px; gap: 6px; }
   .simulation-venue { grid-column: 1 / -1; justify-self: center; text-align: center; font-size: 11px; padding: 2px 0; }
   .simulation-venue small { font-size: 9px; margin-top: 2px; }
-  .simulation-controls { bottom: max(12px, env(safe-area-inset-bottom)); width: calc(100% - 24px); }
-  .simulation-player { padding: 14px; }
-  .simulation-actions { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 12px; }
+  .simulation-controls { bottom: max(10px, env(safe-area-inset-bottom)); width: calc(100% - 20px); }
+  .simulation-player { padding: 11px 12px; border-radius: 16px; }
+  .simulation-actions { flex-direction: column; align-items: stretch; gap: 8px; margin-top: 10px; }
   .simulation-playback-actions, .simulation-view-actions { width: 100%; }
   .simulation-view-actions { margin-left: 0; }
   .simulation-volume { flex: 1; min-width: 0; width: auto; }
   .simulation-reset { flex: 1; padding: 10px 8px; font-size: 12px; gap: 6px; }
-  .simulation-look-note { font-size: 10px; margin-top: 10px; }
+  .simulation-look-note { font-size: 10px; line-height: 1.5; margin-top: 8px; }
 }
 @media (max-width: 350px) {
   .simulation-back { padding: 10px 6px; font-size: 10px; gap: 3px; }

@@ -11,7 +11,7 @@ test("homepage, Paragon prototype, and upcoming guards", async ({
   await expect(page.getByRole("radio", { name: /Coming Soon/ })).toHaveCount(10);
   await expect(page.getByRole("radio", { name: "เมเจอร์ รังสิต (Coming Soon)", exact: true })).toBeEnabled();
   await expect(page.getByLabel("เลือกหรือพิมพ์ที่นั่ง")).toBeEnabled();
-  await expect(page.getByRole("button", { name: "Enter Simulation" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" })).toBeEnabled();
   await expect(page.getByText("ต้นแบบจากผังที่นั่ง", { exact: false })).toBeVisible();
   await expect(page.locator("header, footer, canvas, video")).toHaveCount(0);
   await expect(page.locator(".entry-backdrop img")).toBeVisible();
@@ -28,7 +28,7 @@ test("homepage, Paragon prototype, and upcoming guards", async ({
   await page.goto("/cinemas/rangsit/imax/experience?seat=A-2");
   await expect(page.getByText("สาขานี้ยังไม่พร้อมใช้งาน (Coming Soon)", { exact: true })).toBeVisible();
   await expect(page.getByLabel("เลือกหรือพิมพ์ที่นั่ง")).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Enter Simulation" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" })).toBeDisabled();
   await expect(page.locator("canvas")).toHaveCount(0);
 });
 
@@ -40,7 +40,7 @@ test("typed seat entry validates, enters directly, and retains values on exit", 
   await input.fill("A99");
   await expect(page.getByRole("status")).toHaveText("ไม่พบที่นั่งนี้");
   await input.press("Enter");
-  await page.getByRole("button", { name: "Enter Simulation" }).click();
+  await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
   await expect(page.getByRole("alert")).toContainText("ไม่พบที่นั่งนี้");
   await input.fill(" a4 ");
   await input.press("Enter");
@@ -58,7 +58,7 @@ test("typed seat entry validates, enters directly, and retains values on exit", 
   await expect(input).toHaveValue("");
   await expect(input).toBeFocused();
   await expect(input).toHaveAttribute("aria-expanded", "false");
-  await page.getByRole("button", { name: "Enter Simulation" }).click();
+  await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
   await expect(page.locator("canvas")).toBeVisible();
   await page.goBack();
   await expect(page.getByRole("button", { name: "ลบที่นั่ง A4", exact: true })).toBeVisible();
@@ -74,7 +74,7 @@ test("typed seat entry validates, enters directly, and retains values on exit", 
 test("Paragon prototype enters L4 and autoplays the supplied video", async ({ page }) => {
   await page.goto("/");
   await page.getByLabel("เลือกหรือพิมพ์ที่นั่ง").fill(" l4 ");
-  await page.getByRole("button", { name: "Enter Simulation" }).click();
+  await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
   await expect(page).toHaveURL(/paragon\/imax\/experience\?seat=L-4$/);
   await expect(page.locator("canvas")).toBeVisible();
   await expect(page.getByText("Prototype")).toBeVisible();
@@ -145,7 +145,7 @@ test("typed entry never requests fullscreen and supports Escape", async ({
   });
   await page.goto("/__dev/entry/");
   await page.getByLabel("เลือกหรือพิมพ์ที่นั่ง").fill(" b5 ");
-  await page.getByRole("button", { name: "Enter Simulation" }).click();
+  await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
   await expect(page.locator("canvas")).toBeVisible();
   expect(await page.evaluate(() => window.fullscreenCalls)).toBe(0);
   await expect(page.locator(".fullscreen-note")).toHaveCount(0);

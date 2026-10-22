@@ -66,7 +66,7 @@ export default function VideoControls({ media, onReset, beforeTimeline = <SeatNa
           {actionControl}
         </div>
       </div>
-      <p className="simulation-look-note">ลากเพื่อมองรอบตัว หรือใช้ปุ่มลูกศรบนคีย์บอร์ด</p>
+      <p className="simulation-look-note">ลากเพื่อมองรอบตัว · แตะหน้าจอเพื่อแสดงการควบคุม · ใช้ปุ่มลูกศรบนคีย์บอร์ด</p>
     </div>
   );
 }
