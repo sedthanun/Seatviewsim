@@ -1,0 +1,1429 @@
+{
+  "schemaVersion": 1,
+  "branchId": "paragon",
+  "nameTh": "พารากอน ซีนีเพล็กซ์",
+  "name": "Paragon Cineplex",
+  "brand": "Major Cineplex Group",
+  "location": "Siam Paragon, Bangkok",
+  "features": [
+    "IMAX"
+  ],
+  "status": "available",
+  "source": "https://www.majorcineplex.com/cinema/imax-paragon/",
+  "verifiedAt": "2026-10-10",
+  "auditorium": {
+    "id": "imax",
+    "name": "Paragon Cineplex · IMAX Laser — Prototype",
+    "referenceStatus": "prototype",
+    "units": "meters",
+    "axes": "x-right-y-up-z-rear",
+    "capacity": {
+      "reported": 421,
+      "configured": 426,
+      "discrepancy": "ช่วงเลขที่ผู้ใช้ระบุรวม 426 แต่รายงาน 421; ยังไม่ทราบห้าที่นั่งที่ต่างกัน จึงยังไม่ลบเลขใดออก"
+    },
+    "screen": {
+      "width": 26.3,
+      "height": 19.8,
+      "position": [
+        0,
+        10.5,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "projection": {
+      "system": "IMAX Commercial Laser (CoLa)",
+      "aspectRatio": 1.9,
+      "width": 25,
+      "offset": [
+        0,
+        0
+      ],
+      "tallContentMode": "crop"
+    },
+    "layout": {
+      "kind": "tiered-rows",
+      "curvature": 0.003,
+      "elevation": {
+        "mode": "slope",
+        "frontElevation": 0.25,
+        "degrees": 22.5
+      },
+      "architecture": {
+        "sideClearance": 3,
+        "wallThickness": 0.2,
+        "platformMargin": 0.255,
+        "centralAisle": 1.36,
+        "rearClearance": 2,
+        "railRadius": 0.025,
+        "minDepth": 29,
+        "minHeight": 23,
+        "screenTopClearance": 2,
+        "rearHeadroom": 3,
+        "maxStepRise": 0.18
+      },
+      "rows": [
+        {
+          "id": "L",
+          "distanceFromScreen": 10,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "K",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "J",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "I",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "H",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "G",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "F",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "E",
+          "distanceFromPrevious": 2.35,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "D",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "C",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "B",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "A",
+          "distanceFromPrevious": 1.15,
+          "frontOffset": -0.5,
+          "backOffset": 0.65,
+          "stairRunToNext": 1.15,
+          "platforms": "split"
+        },
+        {
+          "id": "VP",
+          "distanceFromPrevious": 2.8,
+          "frontOffset": -0.5,
+          "backOffset": 0.95,
+          "platforms": "full"
+        }
+      ],
+      "aisles": [
+        {
+          "id": "central",
+          "kind": "central"
+        },
+        {
+          "id": "left",
+          "kind": "side",
+          "side": -1
+        },
+        {
+          "id": "right",
+          "kind": "side",
+          "side": 1
+        }
+      ]
+    },
+    "seating": {
+      "categories": {
+        "normal": {
+          "name": "Normal",
+          "color": "#dc294c"
+        },
+        "honeymoon": {
+          "name": "Honeymoon",
+          "color": "#ce9959"
+        },
+        "opera": {
+          "name": "Opera Chair",
+          "color": "#bb8a50"
+        }
+      },
+      "rows": [
+        {
+          "rowId": "L",
+          "blocks": [
+            {
+              "startX": -11.21,
+              "seatPitch": 0.78,
+              "numbers": [
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "K",
+          "blocks": [
+            {
+              "startX": -12.77,
+              "seatPitch": 0.78,
+              "numbers": [
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "J",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "I",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "H",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "G",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "F",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "normal",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "normal",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "E",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "D",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "C",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "B",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "A",
+          "blocks": [
+            {
+              "startX": -13.55,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            },
+            {
+              "startX": 1.07,
+              "seatPitch": 0.78,
+              "numbers": [
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34"
+              ],
+              "category": "honeymoon",
+              "yaw": 0
+            }
+          ],
+          "pairs": []
+        },
+        {
+          "rowId": "VP",
+          "blocks": [
+            {
+              "startX": -12.14,
+              "seatPitch": 0.78,
+              "numbers": [
+                "1",
+                "2"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": -9.790000000000001,
+              "seatPitch": 0.78,
+              "numbers": [
+                "3",
+                "4"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": -7.44,
+              "seatPitch": 0.78,
+              "numbers": [
+                "5",
+                "6"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": -5.09,
+              "seatPitch": 0.78,
+              "numbers": [
+                "7",
+                "8"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": -2.74,
+              "seatPitch": 0.78,
+              "numbers": [
+                "9",
+                "10"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": -0.39,
+              "seatPitch": 0.78,
+              "numbers": [
+                "11",
+                "12"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": 1.96,
+              "seatPitch": 0.78,
+              "numbers": [
+                "13",
+                "14"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": 4.3100000000000005,
+              "seatPitch": 0.78,
+              "numbers": [
+                "15",
+                "16"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": 6.660000000000001,
+              "seatPitch": 0.78,
+              "numbers": [
+                "17",
+                "18"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": 9.01,
+              "seatPitch": 0.78,
+              "numbers": [
+                "19",
+                "20"
+              ],
+              "category": "opera",
+              "yaw": 0
+            },
+            {
+              "startX": 11.36,
+              "seatPitch": 0.78,
+              "numbers": [
+                "21",
+                "22"
+              ],
+              "category": "opera",
+              "yaw": 0
+            }
+          ],
+          "pairs": [
+            {
+              "id": "vp-pair-1",
+              "numbers": [
+                "1",
+                "2"
+              ]
+            },
+            {
+              "id": "vp-pair-2",
+              "numbers": [
+                "3",
+                "4"
+              ]
+            },
+            {
+              "id": "vp-pair-3",
+              "numbers": [
+                "5",
+                "6"
+              ]
+            },
+            {
+              "id": "vp-pair-4",
+              "numbers": [
+                "7",
+                "8"
+              ]
+            },
+            {
+              "id": "vp-pair-5",
+              "numbers": [
+                "9",
+                "10"
+              ]
+            },
+            {
+              "id": "vp-pair-6",
+              "numbers": [
+                "11",
+                "12"
+              ]
+            },
+            {
+              "id": "vp-pair-7",
+              "numbers": [
+                "13",
+                "14"
+              ]
+            },
+            {
+              "id": "vp-pair-8",
+              "numbers": [
+                "15",
+                "16"
+              ]
+            },
+            {
+              "id": "vp-pair-9",
+              "numbers": [
+                "17",
+                "18"
+              ]
+            },
+            {
+              "id": "vp-pair-10",
+              "numbers": [
+                "19",
+                "20"
+              ]
+            },
+            {
+              "id": "vp-pair-11",
+              "numbers": [
+                "21",
+                "22"
+              ]
+            }
+          ]
+        }
+      ],
+      "seatOverrides": []
+    },
+    "camera": {
+      "eyeHeight": 1.15,
+      "fov": 65,
+      "yawLimit": 75,
+      "pitchLimit": 40,
+      "target": {
+        "kind": "screen-center"
+      }
+    },
+    "appearance": {
+      "rounded": true,
+      "cupHolders": true,
+      "baseColor": "#a4303d",
+      "parts": {
+        "back": {
+          "size": [
+            0.65,
+            0.9,
+            0.18
+          ],
+          "offset": [
+            0,
+            0.72,
+            0.26
+          ]
+        },
+        "backInset": {
+          "size": [
+            0.53,
+            0.7,
+            0.025
+          ],
+          "offset": [
+            0,
+            0.7,
+            0.355
+          ]
+        },
+        "upholstery": {
+          "size": [
+            0.59,
+            0.82,
+            0.04
+          ],
+          "offset": [
+            0,
+            0.72,
+            0.15
+          ]
+        },
+        "headrest": {
+          "size": [
+            0.64,
+            0.12,
+            0.2
+          ],
+          "offset": [
+            0,
+            1.1,
+            0.26
+          ]
+        },
+        "cushion": {
+          "size": [
+            0.62,
+            0.18,
+            0.65
+          ],
+          "offset": [
+            0,
+            0.48,
+            0
+          ]
+        },
+        "arm": {
+          "size": [
+            0.09,
+            0.15,
+            0.7
+          ],
+          "offset": [
+            0.35,
+            0.65,
+            0
+          ]
+        },
+        "base": {
+          "size": [
+            0.4,
+            0.06,
+            0.4
+          ],
+          "offset": [
+            0,
+            0.03,
+            0
+          ]
+        },
+        "stem": {
+          "size": [
+            0.12,
+            0.36,
+            0.12
+          ],
+          "offset": [
+            0,
+            0.24,
+            0
+          ]
+        }
+      }
+    },
+    "environment": {
+      "kind": "row-relative",
+      "materials": {
+        "wall": "#181818",
+        "ceiling": "#141414",
+        "carpet": "#62616b",
+        "railing": "#454b60",
+        "back": "#292a38",
+        "arm": "#292c3a"
+      },
+      "wash": {
+        "wallColor": "#075bff",
+        "ceilingColor": "#0640d5"
+      },
+      "strips": {
+        "countPerSide": 6,
+        "width": 0.045,
+        "bottom": 0.35,
+        "ceilingGap": 0.6,
+        "color": "#65e7ff",
+        "haloColor": "#0879ff",
+        "haloWidth": 0.85
+      },
+      "sconces": {
+        "countPerSide": 2,
+        "heightAboveFloor": 4.1,
+        "color": "#ffbb63",
+        "intensity": 24,
+        "distance": 7
+      },
+      "exits": {
+        "sides": [
+          -1,
+          1
+        ],
+        "width": 1.2,
+        "height": 2.2,
+        "landingDepth": 1.8,
+        "signWidth": 0.75,
+        "signHeight": 0.28,
+        "lightIntensity": 3
+      },
+      "lighting": {
+        "ambient": 0.85,
+        "hemisphere": 1.1,
+        "overhead": 1.4,
+        "wallFill": 0.45,
+        "rearWallFill": 0.25,
+        "dimLevel": 0.2,
+        "transitionSeconds": 1.2,
+        "desktopSconceLights": 2,
+        "mobileSconceLights": 0
+      }
+    },
+    "media": {
+      "defaultVideoId": "imax-preshow",
+      "clips": [
+        {
+          "id": "imax-preshow",
+          "name": "IMAX Preshow",
+          "status": "ready",
+          "src": "/media/Infinite%20Worlds.mp4",
+          "evidenceIds": [
+            "media-note"
+          ]
+        },
+        {
+          "id": "imax-countdown",
+          "name": "IMAX Countdown",
+          "status": "pending",
+          "src": null,
+          "evidenceIds": []
+        }
+      ]
+    }
+  },
+  "evidence": [
+    {
+      "id": "operator-directory",
+      "type": "operator",
+      "url": "https://www.majorcineplex.com/cinema/imax-paragon/",
+      "description": "ยืนยันสาขาและรูปแบบ IMAX Laser เท่านั้น ไม่ยืนยันมิติหรือผัง",
+      "supports": [
+        "/name",
+        "/features"
+      ]
+    },
+    {
+      "id": "user-details",
+      "type": "user",
+      "filename": "reference-analysis.md",
+      "description": "บันทึกคำชี้แจงผู้ใช้เรื่องลำดับแถว เลขเริ่ม K/L คู่ VP ความจุ ขนาดจอ และ CoLa",
+      "supports": [
+        "/auditorium/capacity/reported",
+        "/auditorium/screen/width",
+        "/auditorium/screen/height",
+        "/auditorium/seating/rows",
+        "/auditorium/projection/system",
+        "/auditorium/projection/aspectRatio"
+      ]
+    },
+    {
+      "id": "seat-plan",
+      "type": "photo",
+      "filename": "SeatParagon.jpg",
+      "description": "ภาพผังผู้ใช้; ตัวเลขในภาพไม่ชัดและต้องอาศัยคำชี้แจง ไม่เก็บข้อมูลการจองในไฟล์นี้",
+      "supports": [
+        "/auditorium/seating",
+        "/auditorium/layout/aisles"
+      ]
+    },
+    {
+      "id": "room-photo",
+      "type": "photo",
+      "filename": "557603128_1212139634281126_6891239328485045704_n.jpg",
+      "description": "รูปโรงผู้ใช้รองรับลักษณะวัสดุและไฟ ไม่ใช่หลักฐานระยะที่วัดจริง",
+      "supports": [
+        "/auditorium/appearance",
+        "/auditorium/environment"
+      ]
+    },
+    {
+      "id": "historical-guide",
+      "type": "design-guide",
+      "url": "https://whc.unesco.org/uploads/nominations/1131.pdf#page=475",
+      "description": "แนวทาง IMAX ปี 1991 ใช้เป็นต้นทางค่าประมาณ 22.5 องศาและระยะหน้า 10 เมตร ไม่ใช่การวัด Paragon",
+      "supports": [
+        "/auditorium/layout/elevation/degrees",
+        "/auditorium/layout/rows/0/distanceFromScreen"
+      ]
+    },
+    {
+      "id": "media-note",
+      "type": "document",
+      "filename": "ASSET-CREDITS.md",
+      "description": "ใช้สื่อ Infinite Worlds ที่ลงทะเบียนในโปรเจกต์; Preshow เป็นชื่อ UI ไม่ยืนยันสถานะสื่อทางการ",
+      "supports": [
+        "/auditorium/media"
+      ]
+    }
+  ],
+  "estimates": [
+    {
+      "path": "/auditorium/layout",
+      "rationale": "ระยะแถว ความโค้ง ระดับพื้น ขอบเขตโรง และบันไดเป็นการสร้างต้นแบบตามแนวทางเก่าและภาพ ไม่ใช่ค่าที่สำรวจ",
+      "evidenceIds": [
+        "historical-guide",
+        "room-photo"
+      ]
+    },
+    {
+      "path": "/auditorium/seating",
+      "rationale": "ช่วงเลขท้าย 34 ทิศเลข หมวดที่นั่ง และตำแหน่งยังต้องตรวจผังที่อ่านได้",
+      "evidenceIds": [
+        "user-details",
+        "seat-plan"
+      ]
+    },
+    {
+      "path": "/auditorium/screen/position",
+      "rationale": "ขอบล่างจอสูง 0.6 เมตรเป็นค่าประมาณ",
+      "evidenceIds": [
+        "room-photo"
+      ]
+    },
+    {
+      "path": "/auditorium/screen/rotation",
+      "rationale": "จอแบนไม่หมุนเป็นสมมติฐานของต้นแบบ",
+      "evidenceIds": []
+    },
+    {
+      "path": "/auditorium/projection/width",
+      "rationale": "กรอบภาพกว้าง 25 เมตรเป็นค่าต้นแบบ",
+      "evidenceIds": [
+        "user-details"
+      ]
+    },
+    {
+      "path": "/auditorium/projection/offset",
+      "rationale": "วางกรอบกลางจอเป็นสมมติฐาน ไม่ใช่ตำแหน่งติดตั้งที่ยืนยันแล้ว",
+      "evidenceIds": []
+    },
+    {
+      "path": "/auditorium/projection/tallContentMode",
+      "rationale": "ผู้ใช้เลือกครอปกึ่งกลาง ไม่ยืนยัน framing ของฉบับโรง",
+      "evidenceIds": [
+        "user-details"
+      ]
+    },
+    {
+      "path": "/auditorium/camera",
+      "rationale": "ค่ากล้องเป็นค่า software และสรีรศาสตร์ ไม่ใช่การวัดโรง",
+      "evidenceIds": []
+    },
+    {
+      "path": "/auditorium/appearance",
+      "rationale": "ขนาดเก้าอี้และสีภายใต้ไฟกลางเป็นการประมาณจากภาพ",
+      "evidenceIds": [
+        "room-photo"
+      ]
+    },
+    {
+      "path": "/auditorium/environment",
+      "rationale": "ตำแหน่ง ขนาด จำนวนไฟ และความสว่างเป็นการประมาณ; ด้านตรงข้ามใช้การสะท้อน",
+      "evidenceIds": [
+        "room-photo"
+      ]
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "seat-count-gap",
+      "message": "ยังไม่ทราบห้าที่นั่งที่ทำให้ 426 ต่างจาก 421",
+      "paths": [
+        "/auditorium/capacity"
+      ],
+      "evidenceIds": [
+        "user-details"
+      ]
+    },
+    {
+      "id": "numbering-and-categories",
+      "message": "ยังไม่ยืนยันทิศเลข เลขท้าย การเว้นที่นั่ง และขอบเขตประเภทที่นั่ง",
+      "paths": [
+        "/auditorium/seating"
+      ],
+      "evidenceIds": [
+        "seat-plan",
+        "user-details"
+      ]
+    },
+    {
+      "id": "measured-geometry",
+      "message": "ระยะและตำแหน่งกรอบฉายยังรอหลักฐานการวัด",
+      "paths": [
+        "/auditorium/layout",
+        "/auditorium/screen/position",
+        "/auditorium/projection"
+      ],
+      "evidenceIds": [
+        "room-photo"
+      ]
+    }
+  ]
+}

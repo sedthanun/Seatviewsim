@@ -1,0 +1,1517 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://imax-seat-simulator.local/schemas/cinema-v1",
+  "title": "Cinema Data v1 — one branch, one auditorium",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "branchId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nameTh": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "brand": {
+      "type": "string",
+      "minLength": 1
+    },
+    "location": {
+      "type": "string",
+      "minLength": 1
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "coming-soon",
+        "available"
+      ]
+    },
+    "source": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verifiedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "auditorium": {
+      "$ref": "#/definitions/auditorium"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/evidence"
+      },
+      "minItems": 0
+    },
+    "estimates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/estimate"
+      },
+      "minItems": 0
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/unresolved"
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "branchId",
+    "nameTh",
+    "name",
+    "brand",
+    "location",
+    "features",
+    "status",
+    "source",
+    "verifiedAt",
+    "auditorium",
+    "evidence",
+    "estimates",
+    "unresolved"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "available"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "auditorium": {
+            "type": "object",
+            "properties": {
+              "referenceStatus": {
+                "enum": [
+                  "prototype",
+                  "reviewed"
+                ]
+              },
+              "units": {
+                "const": "meters"
+              },
+              "axes": {
+                "const": "x-right-y-up-z-rear"
+              },
+              "capacity": {
+                "$ref": "#/definitions/capacity"
+              },
+              "screen": {
+                "$ref": "#/definitions/screen"
+              },
+              "layout": {
+                "$ref": "#/definitions/layout"
+              },
+              "seating": {
+                "$ref": "#/definitions/seating"
+              },
+              "camera": {
+                "$ref": "#/definitions/camera"
+              },
+              "appearance": {
+                "$ref": "#/definitions/appearance"
+              },
+              "environment": {
+                "$ref": "#/definitions/environment"
+              },
+              "media": {
+                "$ref": "#/definitions/media"
+              }
+            },
+            "required": [
+              "units",
+              "axes",
+              "capacity",
+              "screen",
+              "layout",
+              "seating",
+              "camera",
+              "appearance",
+              "environment",
+              "media"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "auditorium": {
+            "type": "object",
+            "properties": {
+              "referenceStatus": {
+                "const": "missing"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "vector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "size": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "band": {
+      "type": "object",
+      "properties": {
+        "left": {
+          "type": "number"
+        },
+        "right": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ],
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "$ref": "#/definitions/size"
+        },
+        "offset": {
+          "$ref": "#/definitions/vector"
+        }
+      },
+      "required": [
+        "size",
+        "offset"
+      ],
+      "additionalProperties": false
+    },
+    "elevation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "slope"
+            },
+            "frontElevation": {
+              "type": "number",
+              "minimum": 0
+            },
+            "degrees": {
+              "type": "number",
+              "minimum": 0,
+              "exclusiveMaximum": 90
+            }
+          },
+          "required": [
+            "mode",
+            "frontElevation",
+            "degrees"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "rise"
+            },
+            "frontElevation": {
+              "type": "number",
+              "minimum": 0
+            },
+            "rise": {
+              "type": "number",
+              "minimum": 0
+            },
+            "run": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "mode",
+            "frontElevation",
+            "rise",
+            "run"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "custom"
+            },
+            "levels": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "mode",
+            "levels"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "row": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+$"
+        },
+        "distanceFromScreen": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "distanceFromPrevious": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "frontOffset": {
+          "type": "number"
+        },
+        "backOffset": {
+          "type": "number"
+        },
+        "stairRunToNext": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "platforms": {
+          "oneOf": [
+            {
+              "enum": [
+                "split",
+                "full"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/band"
+              },
+              "minItems": 1
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "frontOffset",
+        "backOffset",
+        "platforms"
+      ],
+      "additionalProperties": false
+    },
+    "aisle": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "kind": {
+              "const": "central"
+            }
+          },
+          "required": [
+            "id",
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "kind": {
+              "const": "side"
+            },
+            "side": {
+              "enum": [
+                -1,
+                1
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "side"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "kind": {
+              "const": "fixed"
+            },
+            "x": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "x",
+            "width"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "block": {
+      "type": "object",
+      "properties": {
+        "startX": {
+          "type": "number"
+        },
+        "seatPitch": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "numbers": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "category": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "yaw": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "startX",
+        "seatPitch",
+        "numbers",
+        "category",
+        "yaw"
+      ],
+      "additionalProperties": false
+    },
+    "seatingRow": {
+      "type": "object",
+      "properties": {
+        "rowId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+$"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/block"
+          },
+          "minItems": 1
+        },
+        "pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "numbers": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9]+$"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "numbers"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "rowId",
+        "blocks",
+        "pairs"
+      ],
+      "additionalProperties": false
+    },
+    "override": {
+      "type": "object",
+      "properties": {
+        "seatId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "$ref": "#/definitions/vector"
+        },
+        "yaw": {
+          "type": "number"
+        },
+        "eyeOffset": {
+          "$ref": "#/definitions/vector"
+        }
+      },
+      "required": [
+        "seatId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "position": {
+              "$ref": "#/definitions/vector"
+            }
+          },
+          "required": [
+            "position"
+          ],
+          "additionalProperties": true
+        },
+        {
+          "type": "object",
+          "properties": {
+            "yaw": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "yaw"
+          ],
+          "additionalProperties": true
+        },
+        {
+          "type": "object",
+          "properties": {
+            "eyeOffset": {
+              "$ref": "#/definitions/vector"
+            }
+          },
+          "required": [
+            "eyeOffset"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "eyeHeight": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fov": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 180
+        },
+        "yawLimit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 180
+        },
+        "pitchLimit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "target": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "screen-center"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "explicit"
+                },
+                "position": {
+                  "$ref": "#/definitions/vector"
+                }
+              },
+              "required": [
+                "kind",
+                "position"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "eyeHeight",
+        "fov",
+        "yawLimit",
+        "pitchLimit",
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "screen": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "position": {
+          "$ref": "#/definitions/vector"
+        },
+        "rotation": {
+          "$ref": "#/definitions/vector"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "position",
+        "rotation"
+      ],
+      "additionalProperties": false
+    },
+    "projection": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aspectRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "offset": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "tallContentMode": {
+          "const": "crop"
+        }
+      },
+      "required": [
+        "system",
+        "aspectRatio",
+        "width",
+        "offset",
+        "tallContentMode"
+      ],
+      "additionalProperties": false
+    },
+    "architecture": {
+      "type": "object",
+      "properties": {
+        "sideClearance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "wallThickness": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "platformMargin": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "centralAisle": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "rearClearance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "railRadius": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minDepth": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minHeight": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "screenTopClearance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "rearHeadroom": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxStepRise": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "sideClearance",
+        "wallThickness",
+        "platformMargin",
+        "centralAisle",
+        "rearClearance",
+        "railRadius",
+        "minDepth",
+        "minHeight",
+        "screenTopClearance",
+        "rearHeadroom",
+        "maxStepRise"
+      ],
+      "additionalProperties": false
+    },
+    "layout": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "tiered-rows"
+        },
+        "curvature": {
+          "type": "number",
+          "minimum": 0
+        },
+        "elevation": {
+          "$ref": "#/definitions/elevation"
+        },
+        "architecture": {
+          "$ref": "#/definitions/architecture"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/row"
+          },
+          "minItems": 1
+        },
+        "aisles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/aisle"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "kind",
+        "curvature",
+        "elevation",
+        "architecture",
+        "rows",
+        "aisles"
+      ],
+      "additionalProperties": false
+    },
+    "seating": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            },
+            "required": [
+              "name",
+              "color"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/seatingRow"
+          },
+          "minItems": 1
+        },
+        "seatOverrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/override"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "categories",
+        "rows",
+        "seatOverrides"
+      ],
+      "additionalProperties": false
+    },
+    "appearance": {
+      "type": "object",
+      "properties": {
+        "rounded": {
+          "type": "boolean"
+        },
+        "cupHolders": {
+          "type": "boolean"
+        },
+        "baseColor": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "parts": {
+          "type": "object",
+          "properties": {
+            "back": {
+              "$ref": "#/definitions/part"
+            },
+            "backInset": {
+              "$ref": "#/definitions/part"
+            },
+            "upholstery": {
+              "$ref": "#/definitions/part"
+            },
+            "headrest": {
+              "$ref": "#/definitions/part"
+            },
+            "cushion": {
+              "$ref": "#/definitions/part"
+            },
+            "arm": {
+              "$ref": "#/definitions/part"
+            },
+            "base": {
+              "$ref": "#/definitions/part"
+            },
+            "stem": {
+              "$ref": "#/definitions/part"
+            }
+          },
+          "required": [
+            "back",
+            "cushion",
+            "arm",
+            "base"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "rounded",
+        "cupHolders",
+        "baseColor",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "row-relative"
+        },
+        "materials": {
+          "type": "object",
+          "properties": {
+            "wall": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "ceiling": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "carpet": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "railing": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "back": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "arm": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          },
+          "required": [
+            "wall",
+            "ceiling",
+            "carpet",
+            "railing",
+            "back",
+            "arm"
+          ],
+          "additionalProperties": false
+        },
+        "wash": {
+          "type": "object",
+          "properties": {
+            "wallColor": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "ceilingColor": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          },
+          "required": [
+            "wallColor",
+            "ceilingColor"
+          ],
+          "additionalProperties": false
+        },
+        "strips": {
+          "type": "object",
+          "properties": {
+            "countPerSide": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "bottom": {
+              "type": "number",
+              "minimum": 0
+            },
+            "ceilingGap": {
+              "type": "number",
+              "minimum": 0
+            },
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "haloColor": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "haloWidth": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "countPerSide",
+            "width",
+            "bottom",
+            "ceilingGap",
+            "color",
+            "haloColor",
+            "haloWidth"
+          ],
+          "additionalProperties": false
+        },
+        "sconces": {
+          "type": "object",
+          "properties": {
+            "countPerSide": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "heightAboveFloor": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "intensity": {
+              "type": "number",
+              "minimum": 0
+            },
+            "distance": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "countPerSide",
+            "heightAboveFloor",
+            "color",
+            "intensity",
+            "distance"
+          ],
+          "additionalProperties": false
+        },
+        "exits": {
+          "type": "object",
+          "properties": {
+            "sides": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  -1,
+                  1
+                ]
+              },
+              "uniqueItems": true
+            },
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "height": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "landingDepth": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "signWidth": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "signHeight": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "lightIntensity": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "sides",
+            "width",
+            "height",
+            "landingDepth",
+            "signWidth",
+            "signHeight",
+            "lightIntensity"
+          ],
+          "additionalProperties": false
+        },
+        "lighting": {
+          "type": "object",
+          "properties": {
+            "ambient": {
+              "type": "number",
+              "minimum": 0
+            },
+            "hemisphere": {
+              "type": "number",
+              "minimum": 0
+            },
+            "overhead": {
+              "type": "number",
+              "minimum": 0
+            },
+            "wallFill": {
+              "type": "number",
+              "minimum": 0
+            },
+            "rearWallFill": {
+              "type": "number",
+              "minimum": 0
+            },
+            "dimLevel": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "transitionSeconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "desktopSconceLights": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "mobileSconceLights": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "ambient",
+            "hemisphere",
+            "overhead",
+            "wallFill",
+            "rearWallFill",
+            "dimLevel",
+            "transitionSeconds",
+            "desktopSconceLights",
+            "mobileSconceLights"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "kind",
+        "materials",
+        "wash",
+        "strips",
+        "sconces",
+        "exits",
+        "lighting"
+      ],
+      "additionalProperties": false
+    },
+    "clip": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "pending"
+          ]
+        },
+        "src": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "status",
+        "src",
+        "evidenceIds"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ready"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "src": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "src": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "media": {
+      "type": "object",
+      "properties": {
+        "defaultVideoId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clip"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "defaultVideoId",
+        "clips"
+      ],
+      "additionalProperties": false
+    },
+    "capacity": {
+      "type": "object",
+      "properties": {
+        "reported": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configured": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "discrepancy": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "reported",
+        "configured"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "type": {
+          "enum": [
+            "operator",
+            "user",
+            "photo",
+            "design-guide",
+            "asset",
+            "document"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "filename": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "description",
+        "supports"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "additionalProperties": true
+        },
+        {
+          "type": "object",
+          "properties": {
+            "filename": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "filename"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    "estimate": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "path",
+        "rationale",
+        "evidenceIds"
+      ],
+      "additionalProperties": false
+    },
+    "unresolved": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "message",
+        "paths",
+        "evidenceIds"
+      ],
+      "additionalProperties": false
+    },
+    "auditorium": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "referenceStatus": {
+          "enum": [
+            "missing",
+            "prototype",
+            "reviewed"
+          ]
+        },
+        "units": {
+          "const": "meters"
+        },
+        "axes": {
+          "const": "x-right-y-up-z-rear"
+        },
+        "capacity": {
+          "$ref": "#/definitions/capacity"
+        },
+        "screen": {
+          "$ref": "#/definitions/screen"
+        },
+        "projection": {
+          "$ref": "#/definitions/projection"
+        },
+        "layout": {
+          "$ref": "#/definitions/layout"
+        },
+        "seating": {
+          "$ref": "#/definitions/seating"
+        },
+        "camera": {
+          "$ref": "#/definitions/camera"
+        },
+        "appearance": {
+          "$ref": "#/definitions/appearance"
+        },
+        "environment": {
+          "$ref": "#/definitions/environment"
+        },
+        "media": {
+          "$ref": "#/definitions/media"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "referenceStatus"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
