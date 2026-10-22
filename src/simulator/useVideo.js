@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-export default function useVideo(initialSource = "/media/vantage-demo.mp4") {
+import { publicPath } from "../utils/publicPath";
+
+export default function useVideo(initialSource = publicPath("/media/vantage-demo.mp4")) {
   const [video] = useState(() => {
     const el = document.createElement("video");
     el.playsInline = true;

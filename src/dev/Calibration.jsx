@@ -11,6 +11,7 @@ import SeatCombobox from "../components/SeatCombobox";
 import { findSeat } from "../simulator/seatCodes";
 import { eyePosition, projectionBounds } from "../simulator/math";
 import useVideo from "../simulator/useVideo";
+import { publicPath } from "../utils/publicPath";
 import "./calibration.css";
 
 function InspectionCamera({ view, config }) {
@@ -57,7 +58,7 @@ export default function Calibration() {
   const initial = useMemo(() => buildParagonConfig(), []);
   const [draft, setDraft] = useState(initial.calibration), [config, setConfig] = useState(initial);
   const [view, setView] = useState("side"), [code, setCode] = useState("VP6"), [notice, setNotice] = useState(""), [reset, setReset] = useState(0);
-  const media = useVideo("/media/Infinite%20Worlds.mp4");
+  const media = useVideo(publicPath("/media/Infinite%20Worlds.mp4"));
   const [quality, setQuality] = useState(1);
   const [simple, setSimple] = useState(() => matchMedia("(max-width: 760px)").matches);
   useEffect(() => {

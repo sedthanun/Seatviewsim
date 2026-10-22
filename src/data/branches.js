@@ -1,4 +1,5 @@
 import { paragonPrototype } from "../config/paragon";
+import { publicPath } from "../utils/publicPath";
 // Official directory snapshot; never fetched by visitors' browsers.
 export const directorySource = "https://www.majorcineplex.com/cinema/";
 export const verifiedAt = "2026-10-10";
@@ -39,7 +40,7 @@ export const branches = [
         id: "imax",
         name: "IMAX",
         config: paragonPrototype,
-        videoSrc: "/media/Infinite%20Worlds.mp4",
+        videoSrc: publicPath("/media/Infinite%20Worlds.mp4"),
       },
     ],
   },
