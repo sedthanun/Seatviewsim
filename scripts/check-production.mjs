@@ -51,6 +51,8 @@ try {
   assert.equal(await page.locator("canvas, video").count(), 0);
   await page.waitForFunction(() => { const image = document.querySelector(".entry-backdrop img"); return image?.complete && image.naturalWidth > 0; });
   assert.equal(await page.getByRole("heading", { name: "Paragon Calibration" }).count(), 0);
+  await page.goto(`${base}/?branch=paragon`);
+  assert.equal(await page.getByRole("combobox", { name: "เลือกวิดีโอ" }).count(), 0);
   await page.goto(`${base}/__dev/simulation-ui`);
   await page.getByRole("heading", { name: "Seat View Simulator", exact: true }).waitFor();
   assert.equal(await page.getByRole("button", { name: "ที่นั่งถัดไป" }).count(), 0);
@@ -58,7 +60,9 @@ try {
   await page.goto(`${base}/cinemas/paragon/imax/experience?seat=VP-6`);
   await page.getByRole("button", { name: "หยุดชั่วคราว", exact: true }).waitFor();
   assert.equal(await page.locator(".simulation-seat strong").textContent(), "VP6");
-  assert(await page.getByRole("combobox", { name: "รูปแบบวิดีโอ (ตัวอย่างปุ่ม)" }).isDisabled());
+  assert.equal(await page.getByRole("combobox", { name: "เลือกวิดีโอ" }).inputValue(), "imax-preshow");
+  assert(await page.locator(".simulation-video-field option[value='imax-countdown']").isDisabled());
+  assert.equal(await page.locator(".simulation-video-field").count(), 1);
   assert.equal(await page.locator(".simulation-video-field > span").textContent(), "วิดีโอ");
   assert(await page.getByRole("button", { name: "ที่นั่งก่อนหน้า", exact: true }).isDisabled());
   assert(await page.getByRole("button", { name: "ที่นั่งถัดไป", exact: true }).isDisabled());
@@ -89,7 +93,7 @@ try {
   await page.getByRole("button", { name: "กลับหน้าแรก", exact: true }).click();
   await page.getByRole("button", { name: "ลบที่นั่ง A2", exact: true }).waitFor();
   assert.deepEqual(await page.locator(".seat-chip > span").allTextContents(), ["VP6", "A2"]);
-  console.log("Production checks passed: preview fixtures excluded, single/multi-seat URLs, disabled video selector, CoLa projection, continuous video/canvas and restored chips.");
+  console.log("Production checks passed: preview fixtures excluded, Simulation-only catalog video selection, pending Countdown guard, single/multi-seat URLs, disabled in-scene mock selector, CoLa projection, continuous video/canvas and restored chips.");
 } finally {
   await browser?.close();
   await new Promise((done) => server.close(done));

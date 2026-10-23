@@ -17,7 +17,7 @@ test("homepage glass panel keeps aligned controls and readable type across viewp
     const h = await heading.boundingBox(), l = await label.boundingBox();
     expect(Math.abs(h.x - l.x)).toBeLessThanOrEqual(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    const input = page.getByRole("combobox");
+    const input = page.getByRole("combobox", { name: "เลือกหรือพิมพ์ที่นั่ง" });
     await expect(input).toHaveCSS("font-size", "16px");
     await expect(page.locator(".seat-input-shell")).toHaveCSS("min-height", "52px");
     if (viewport.height > 480) await page.screenshot({ path: `output/playwright/glass-home-${viewport.width}.png`, fullPage: true });

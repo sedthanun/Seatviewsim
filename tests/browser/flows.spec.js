@@ -75,7 +75,7 @@ test("Paragon prototype enters L4 and autoplays the supplied video", async ({ pa
   await page.goto("/");
   await page.getByLabel("เลือกหรือพิมพ์ที่นั่ง").fill(" l4 ");
   await page.getByRole("button", { name: "ดูมุมมองจากที่นั่ง" }).click();
-  await expect(page).toHaveURL(/paragon\/imax\/experience\?seat=L-4$/);
+  await expect(page).toHaveURL(/paragon\/imax\/experience\?seat=L-4&video=imax-preshow$/);
   await expect(page.locator("canvas")).toBeVisible();
   await expect(page.getByText("Prototype")).toBeVisible();
   await expect(page.getByRole("slider", { name: "ตำแหน่งวิดีโอ" })).toBeEnabled({ timeout: 20000 });

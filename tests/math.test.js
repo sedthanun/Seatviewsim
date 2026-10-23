@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { eyePosition, fitVideo, validateConfig } from "../src/simulator/math";
 import { fixture } from "../src/dev/fixture";
 import { branches, canSimulate } from "../src/data/branches";
+import paragonCinema from "../src/data/cinemas/paragon.json";
 import { screenDimensions } from "../src/config/paragon/screen";
 import { seats as paragonSeats, seatingEstimate } from "../src/config/paragon/seating";
 describe("seat geometry", () => {
@@ -57,13 +58,13 @@ describe("aspect fit", () => {
     expect(height).toBeLessThan(screenDimensions.height);
   });
 });
-it("registers the supplied Paragon video with the provisional auditorium", () => {
+it("registers the supplied Paragon video in Cinema JSON, not directory metadata", () => {
   const paragon = branches.find((branch) => branch.id === "paragon");
-  expect(paragon.auditoriums[0].videoSrc).toBe(
+  expect(paragonCinema.auditorium.media.clips.find(clip => clip.id === paragonCinema.auditorium.media.defaultVideoId).src).toBe(
     "/media/Infinite%20Worlds.mp4",
   );
-  expect(canSimulate(paragon, paragon.auditoriums[0])).toBe(true);
-  expect(paragon.auditoriums[0].config.referenceStatus).toBe("prototype");
+  expect(paragon.auditoriums[0]).not.toHaveProperty("videoSrc");
+  expect(canSimulate(paragon, { ...paragon.auditoriums[0], referenceStatus: "prototype", seats: [1] })).toBe(true);
 });
 it("keeps upcoming branches and synthetic fixtures closed", () => {
   for (const branch of branches.filter((item) => item.id !== "paragon"))

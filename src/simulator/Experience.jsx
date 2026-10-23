@@ -25,7 +25,7 @@ export class RenderBoundary extends Component {
     );
   }
 }
-export default function Experience({ config, seat, selectedSeats = [seat], onSeatChange, onExit, videoSrc, seatSummary, controlsBeforeTimeline, controlsAction }) {
+export default function Experience({ config, seat, selectedSeats = [seat], onSeatChange, onExit, videoSrc, videoOptions = [], videoId = "", onVideoChange, seatSummary, controlsBeforeTimeline, controlsAction }) {
   const media = useVideo(videoSrc ?? config.videoSrc);
   const [quality, setQuality] = useState(1);
   const [reset, setReset] = useState(0),
@@ -116,7 +116,7 @@ export default function Experience({ config, seat, selectedSeats = [seat], onSea
         <VideoControls media={media} onReset={() => setReset((v) => v + 1)}
           beforeTimeline={controlsBeforeTimeline ?? <SeatNavigator seatCodes={selectedSeats.map(seatCode)} activeIndex={activeIndex}
             disabled={!onSeatChange} onChange={(index) => onSeatChange(selectedSeats[index].id)} />}
-          actionControl={controlsAction} />
+          actionControl={controlsAction} videoOptions={videoOptions} videoId={videoId} onVideoChange={onVideoChange} />
       </div>
     </div>
   );

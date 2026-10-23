@@ -28,15 +28,17 @@ export function resolveSeatSelection(params, seats, { home = false } = {}) {
   return home ? { ids: [], activeId: null, draft: "", error: "" } : invalid;
 }
 
-export function homeSelectionQuery(branchId, seats) {
+export function homeSelectionQuery(branchId, seats, videoId = null) {
   const params = new URLSearchParams({ branch: branchId });
   if (seats.length === 1) params.set("seat", seatCode(seats[0]));
   else seats.forEach((seat) => params.append("seats", seat.id));
+  if (videoId) params.set("video", videoId);
   return params;
 }
 
-export function experienceSelectionQuery(seats, activeId = seats[0]?.id) {
+export function experienceSelectionQuery(seats, activeId = seats[0]?.id, videoId = null) {
   const params = new URLSearchParams({ seat: activeId });
   if (seats.length > 1) seats.forEach((seat) => params.append("seats", seat.id));
+  if (videoId) params.set("video", videoId);
   return params;
 }

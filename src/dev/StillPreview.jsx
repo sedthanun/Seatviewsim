@@ -1,7 +1,8 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import Auditorium from "../simulator/Auditorium";
-import { paragonPrototype } from "../config/paragon";
+import paragonCinema from "../data/cinemas/paragon.json";
+import { buildCinemaRuntime } from "../config/buildCinemaRuntime";
 
 function StillCamera({ position, target }) {
   const { camera } = useThree();
@@ -13,7 +14,7 @@ function StillCamera({ position, target }) {
 export default function StillPreview() {
   const [video] = useState(() => document.createElement("video"));
   const [quality, setQuality] = useState(1);
-  const config = paragonPrototype, rear = config.geometry.rows.at(-1);
+  const config = useMemo(() => buildCinemaRuntime(paragonCinema).auditorium.config, []), rear = config.geometry.rows.at(-1);
   const viewpoint = [0, rear.elevation + 3, Math.max(...config.seats.map((s) => s.position[2])) + 0.8];
   const media = { video, source: "", state: { playing: false, error: "", width: 0, height: 0 } };
   return <div style={{ position: "fixed", inset: 0 }}><Canvas dpr={quality} gl={{ antialias: true }} camera={{ position: viewpoint, fov: 70, near: 0.05, far: 150 }}>

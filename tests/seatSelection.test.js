@@ -33,6 +33,12 @@ it("round-trips all selected seats and the active seat through both route format
   expect(parse(homeSelectionQuery("paragon", selected), true).ids).toEqual(["A-4", "A-1", "A-3"]);
   expect(parse(experienceSelectionQuery(selected, "A-1"))).toMatchObject({ ids: ["A-4", "A-1", "A-3"], activeId: "A-1", error: "" });
 });
+it("round-trips a video ID without putting a media URL in either route", () => {
+  const selected = [seats[3], seats[0]];
+  expect(homeSelectionQuery("paragon", selected, "imax-preshow").toString()).toBe("branch=paragon&seats=A-4&seats=A-1&video=imax-preshow");
+  expect(experienceSelectionQuery(selected, "A-1", "imax-preshow").toString()).toBe("seat=A-1&seats=A-4&seats=A-1&video=imax-preshow");
+  expect(homeSelectionQuery("paragon", selected).has("video")).toBe(false);
+});
 it.each(["seats=A-1&seats=foreign", "seat=A-8&seats=A-1&seats=A-2", "seats=", "seat=missing"])("rejects invalid immersive selection %s", (query) => {
   expect(parse(query)).toMatchObject({ ids: [], activeId: null, error: expect.any(String) });
   expect(parse(query).error).not.toBe("");

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Line, OrthographicCamera } from "@react-three/drei";
-import { buildParagonConfig } from "../config/paragon/layout";
+import paragonCinema from "../data/cinemas/paragon.json";
+import { buildCinemaRuntime } from "../config/buildCinemaRuntime";
 import { calibrationDefaults, designSource, normalizeCalibration, parseCalibration, serializeCalibration, validateCalibration } from "../config/paragon/calibration";
 import Auditorium from "../simulator/Auditorium";
 import SeatedCamera from "../simulator/SeatedCamera";
@@ -55,7 +56,7 @@ const fields = [
   ["vpDistance", "ระยะ A–VP (ม.)", 0.1, 1.15, 5], ["curvature", "ความโค้งแถว (1/ม.)", 0.0005, 0, 0.006],
 ];
 export default function Calibration() {
-  const initial = useMemo(() => buildParagonConfig(), []);
+  const initial = useMemo(() => buildCinemaRuntime(paragonCinema).auditorium.config, []);
   const [draft, setDraft] = useState(initial.calibration), [config, setConfig] = useState(initial);
   const [view, setView] = useState("side"), [code, setCode] = useState("VP6"), [notice, setNotice] = useState(""), [reset, setReset] = useState(0);
   const media = useVideo(publicPath("/media/Infinite%20Worlds.mp4"));
@@ -80,7 +81,7 @@ export default function Calibration() {
   const apply = (next) => {
     setNotice("");
     if (validateCalibration(next).length) { setDraft(next); return; }
-    const config = buildParagonConfig(next);
+    const config = buildCinemaRuntime(paragonCinema, next).auditorium.config;
     setDraft(config.calibration); setConfig(config);
   };
   const changeMode = (mode) => apply({ ...config.calibration, mode,

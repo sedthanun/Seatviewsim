@@ -3,8 +3,11 @@ import SeatNavigator from "./SeatNavigator";
 import VideoModeSelector from "./VideoModeSelector";
 const time = (s) =>
   `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
-export default function VideoControls({ media, onReset, beforeTimeline = <SeatNavigator disabled />, actionControl = <VideoModeSelector value="pre-show" disabled /> }) {
+export default function VideoControls({ media, onReset, beforeTimeline = <SeatNavigator disabled />, actionControl, videoOptions = [], videoId = "", onVideoChange }) {
   const { video, state, play } = media;
+  const selector = actionControl ?? (videoOptions.length > 0
+    ? <VideoModeSelector options={videoOptions} value={videoId} ariaLabel="เลือกวิดีโอ" onChange={onVideoChange} />
+    : <VideoModeSelector value="pre-show" disabled />);
   return (
     <div className="simulation-player" role="group" aria-label="ควบคุมวิดีโอ">
       <div className="simulation-status" role="status">
@@ -63,7 +66,7 @@ export default function VideoControls({ media, onReset, beforeTimeline = <SeatNa
           <button className="simulation-reset" onClick={onReset}>
             <Crosshair size={16} aria-hidden="true" /> หันกลับหาจอ
           </button>
-          {actionControl}
+          {selector}
         </div>
       </div>
       <p className="simulation-look-note">ลากเพื่อมองรอบตัว · แตะหน้าจอเพื่อแสดงการควบคุม · ใช้ปุ่มลูกศรบนคีย์บอร์ด</p>

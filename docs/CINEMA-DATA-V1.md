@@ -1,14 +1,16 @@
 # Cinema Data v1 — คู่มือข้อมูลสาขา
 
-NEXT-01: schema, validator, ตัวอย่าง และ baseline พร้อมใช้แล้ว ตัวอย่าง JSON **ยังไม่เชื่อม registry หรือหน้าเว็บ** ระบบสาธารณะยังใช้ JavaScript ของ Paragon เดิม NEXT-02 จะย้าย loader และสร้าง adapter สำหรับฉากครบทั้งโรง
+NEXT-02 เสร็จแล้วสำหรับ Paragon: public loader อ่าน `paragon.json` ผ่าน static lazy registry ตรวจ schema/branch/readiness ก่อนสร้าง runtime; หน้าแรกและ Experience ใช้ผลลัพธ์นี้ ส่วน Calibration development สร้างฉากจาก JSON เดียวกันพร้อมคง Calibration trial v1 แยกเป็นคนละ contract การเพิ่มสาขาใหม่ยังไม่อยู่ในขอบเขตนี้
 
 ## ไฟล์และการเรียกใช้
 
 - `src/data/schemas/cinema.schema.json`: JSON Schema draft-07
 - `src/config/validateCinema.js`: Ajv 8 และการตรวจความสัมพันธ์
-- `src/config/resolveCinemaSeating.js`: ขยายข้อมูลรายแถวเป็น rows/seats สำหรับตรวจและเทียบ ไม่ใช่ renderer adapter
-- `src/data/cinemas/paragon.json`: ตัวอย่างที่ผ่าน พร้อมคำเตือน 421/426
-- `tests/baselines/paragon-v1.json`: baseline frozen ของ runtime config ทั้งชุด สายตาทุกที่นั่ง และ projection/UV สามสัดส่วน
+- `src/config/resolveCinemaSeating.js`: ขยายข้อมูลรายแถวเป็น rows/seats
+- `src/config/buildCinemaRuntime.js`: สร้าง runtime scene ทั้ง geometry, environment, camera, seats และ media จาก auditorium JSON โดยใช้ generic architecture/environment recipes
+- `src/config/loadCinema.js` + `src/data/cinemaRegistry.js`: static allowlisted lazy import, validation และ readiness guard
+- `src/data/cinemas/paragon.json`: แหล่งข้อมูล runtime ของ Paragon พร้อมคำเตือน 421/426
+- `tests/baselines/paragon-v1.json`: frozen parity baseline ของ runtime config ทั้งชุด สายตาทุกที่นั่ง และ projection/UV สามสัดส่วน
 
 ```js
 import { validateCinema } from "../config/validateCinema";
@@ -126,7 +128,7 @@ appearance มี rounded/cupHolders/baseColor และ parts ที่มี s
 
 environment.kind=row-relative เป็น recipe ตาม renderer เดิม มี materials/wash/strips/sconces/exits/lighting ตาม schema จำนวนไฟอำพันไม่เกินชุดไฟต่อฝั่ง exits.sides ระบุ -1/1 ไม่ซ้ำ หรือ [] เมื่อไม่มีประตูใน recipe นี้ แบบโรงที่ต้องใช้ environment ต่างจาก recipe นี้ให้เพิ่มชนิดพร้อม schema/adapter ภายหลัง ไม่คัดลอกบรรยากาศ Paragon มาใช้เงียบ ๆ
 
-media.clips มี id/name/status/src/evidenceIds ready ต้องมี src; pending ต้อง src=null สำหรับ available defaultVideoId ต้องอ้าง ready clip ภายในสาขา Coming Soon ใช้ null ได้ ตัวตรวจไม่อ่าน/ดาวน์โหลดไฟล์ และไม่มี dropdown ใหม่ในรอบนี้
+media.clips มี id/name/status/src/evidenceIds ready ต้องมี src; pending ต้อง src=null สำหรับ available defaultVideoId ต้องอ้าง ready clip ภายในสาขา Coming Soon ใช้ null ได้ ตัวตรวจไม่อ่าน/ดาวน์โหลดไฟล์ หน้า Home แสดง dropdown จาก catalog นี้; URL เก็บ clip ID เท่านั้น ไม่รับ source จาก query โดยตรง และคลิป pending จะเลือกไม่ได้
 
 - evidence: id/type/url หรือ filename/description/supports; type=operator,user,photo,design-guide,asset,document; supports เป็น JSON Pointer ไปฟิลด์หรือกลุ่มที่แหล่งข้อมูลรองรับ
 - estimates: path/rationale/evidenceIds; ระบุค่าประมาณและเหตุผล evidenceIds=[] เมื่อไม่มีแหล่งรองรับ
@@ -137,8 +139,8 @@ Paragon คง Prototype, 426/รายงาน421, L→K→…→A→VP, K เ
 
 ## ตรวจและย้ายต่อ
 
-รัน npm test, npm run build, npm run test:production ชุด Cinema เทียบทุกตำแหน่งของ example และ runtime JavaScript ทั้งชุด/สายตา/UV กับ baseline ภายใน 1e-6 รหัส/หมวด/ลำดับ/shape ต้องตรง
+รัน `npm test`, `npm run build`, `npm run test:production` และ browser tests. ชุด Cinema เทียบทุกตำแหน่งของ JSON กับ frozen runtime baseline ภายใน 1e-6; รหัส/หมวด/ลำดับ/shape ต้องตรง
 
 baseline ไม่สร้างใหม่ใน tests เมื่อเปลี่ยนโดยตั้งใจและตรวจความเปลี่ยนแปลงแล้วใช้ `node scripts/capture-cinema-baseline.mjs` ห้ามอัปเดต snapshot เพื่อกลบ regression
 
-NEXT-02 สร้าง adapter ฉากครบจาก inputs เทียบ geometry/platforms/stairs/environment/EXIT กับ baseline แล้วเชื่อม registry/loader รักษา Calibration trial v1, URL และ guard เดิม ก่อนเลิกใช้ constants ซ้ำ การยืนยันความแม่นยำเทียบโรงจริงเป็นคนละงาน
+เพิ่มสาขาใหม่โดยทำ JSON ของสาขานั้นและเพิ่ม mapping ใน registry; ห้ามสร้าง import path จาก URL และห้ามเปลี่ยนสถานะ Coming Soon เป็นพร้อมใช้โดยไม่มีข้อมูล/หลักฐานพร้อม การยืนยันความแม่นยำเทียบโรงจริงเป็นคนละงาน (DATA-01)

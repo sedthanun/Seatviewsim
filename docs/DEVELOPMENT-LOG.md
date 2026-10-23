@@ -1,7 +1,7 @@
 ---
 document_id: imax-seat-simulator-development-log
-document_version: 12
-updated_at: 2026-10-13
+document_version: 13
+updated_at: 2026-10-23
 language: th
 project_version: 0.1.0
 project_status: functional-prototype
@@ -11,27 +11,27 @@ open_priority_issue: none
 seat_alignment_status: fixed-and-visually-verified
 vp_tables_status: removed-per-user-request
 projection_status: implemented-and-verified
-json_migration_status: planned-not-implemented
-cinema_schema_status: v1-implemented-example-not-connected
-video_selection_status: planned-not-implemented
+json_migration_status: NEXT-02-implemented-paragon
+cinema_schema_status: v1-implemented-and-connected-for-paragon
+video_selection_status: NEXT-03-implemented
 branch_file_contract: one-json-file-per-branch-one-auditorium-per-branch
 ---
 
 # IMAX Seat View Simulator — Development Log
 
-เอกสารส่งต่องานสำหรับนักพัฒนาและ AI อัปเดต 13 ตุลาคม 2026 จากโค้ดใน workspace และข้อกำหนดที่ผู้ใช้ยืนยัน ใช้แยกสิ่งที่ทำแล้ว สิ่งที่เป็นค่าประมาณ และแผนงานที่ยังไม่ได้ลงมือทำ
+เอกสารส่งต่องานสำหรับนักพัฒนาและ AI อัปเดต 23 ตุลาคม 2026 จากโค้ดใน workspace และข้อกำหนดที่ผู้ใช้ยืนยัน ใช้แยกสิ่งที่ทำแล้ว สิ่งที่เป็นค่าประมาณ และแผนงานที่ยังไม่ได้ลงมือทำ
 
-**สถานะตอนนี้:** Paragon เป็น Prototype ที่เลือกที่นั่งและดูวิดีโอบนจอ 3D ได้จริง ข้อมูลโรงยังเป็น JavaScript และยังไม่มีตัวเลือกวิดีโอ แก้ทิศเก้าอี้ทั้งหมดให้หันตรงไปทางจอ และเอาโต๊ะในแถว VP ออกแล้ว ใช้ชื่อ IMAX Seat View Simulator และ Prompt สำหรับข้อความหลัก ใช้ Google Sans สำหรับข้อความขนาดเล็กและหมายเหตุตามผู้ใช้ ล่าสุดปรับภาพผ่านกรอบ CoLa 1.90:1 กลางจอและครอปบนล่างผ่าน UV แล้วตาม DL-020
+**สถานะตอนนี้:** Paragon เป็น Prototype ที่เลือกที่นั่งและดูวิดีโอบนจอ 3D ได้จริง โดยทะเบียนสาขาโหลดข้อมูลฉากจาก Cinema JSON ผ่าน registry, validator และ runtime adapter; Calibration development ใช้ JSON ชุดเดียวกัน หน้า Home เลือกคลิปจาก media catalog และเก็บ clip ID ใน URL ตาม NEXT-03; Countdown ยัง pending เพราะยังไม่มีไฟล์ที่ได้รับอนุญาต แก้ทิศเก้าอี้ทั้งหมดให้หันตรงไปทางจอ และเอาโต๊ะในแถว VP ออกแล้ว ใช้ชื่อ IMAX Seat View Simulator และ Prompt สำหรับข้อความหลัก ใช้ Google Sans สำหรับข้อความขนาดเล็กและหมายเหตุตามผู้ใช้ ล่าสุดปรับภาพผ่านกรอบ CoLa 1.90:1 กลางจอและครอปบนล่างผ่าน UV แล้วตาม DL-020
 
 **ข้อกำหนดโครงสร้างที่คงไว้:** JSON หนึ่งไฟล์ต่อหนึ่งสาขา แต่ละสาขามีโรงฉายเดียวแน่นอน แผนด้านล่างจึงใช้ `paragon.json` ไม่แยกไฟล์ตาม auditorium และไม่ออกแบบให้หนึ่งสาขามีหลายโรง
 
-**หน้าแรกล่าสุด (DL-022):** ภาพนิ่ง Paragon เต็มจอและ Carousel เลือกโรงแบบเกม เลือกที่นั่งได้จาก Combobox หรือ Dialog ผังโรง มี pan/zoom และคืนโฟกัสตามวิธีเลือก เก็บ ID เป็น array แต่รอบนี้เลือกได้หนึ่งที่นั่ง Coming Soon เลือกดูได้แต่ยังเข้า Simulation ไม่ได้
+**หน้าแรกล่าสุด (DL-022/DL-024):** ภาพนิ่ง Paragon เต็มจอและ Carousel เลือกโรงแบบเกม เลือกที่นั่งได้จาก Combobox หรือ Dialog ผังโรง มี pan/zoom และคืนโฟกัสตามวิธีเลือก รองรับได้สูงสุด 6 ที่นั่ง; media dropdown อ่านจาก Cinema JSON. Coming Soon เลือกดูได้แต่ยังเข้า Simulation ไม่ได้
 
 **ข้อกำหนดการฉายล่าสุดของผู้ใช้ (13 ตุลาคม 2026):** พารากอนใช้ IMAX Commercial Laser (CoLa) และกรอบฉาย 1.90:1 ไม่ใช่ภาพ 1.43:1 เต็มความสูงจอ คงจอ 26.3 × 19.8 ม. และความกว้างภาพ 25 ม.; derive สูง 25/1.90, วางกลางจอและครอปบนล่างกึ่งกลาง ภาพกว้างกว่า 1.90 ใช้ภาพครบโดย fit เต็มความกว้าง ตำแหน่งกลางจอและเฟรมครอปเป็นค่าจำลองที่ยังไม่ได้ยืนยันจากโรงจริง
 
 ## 00 · ความคืบหน้าและงานที่ต้องทำต่อ
 
-**ความคืบหน้าตามรายการงาน: 71% · เสร็จ 12 จาก 17 งานหลัก · เหลือ 5 งาน** (อัปเดต 13 ตุลาคม 2026)
+**ความคืบหน้าตามรายการงาน: 82% · เสร็จ 14 จาก 17 งานหลัก · เหลือ 3 งาน** (อัปเดต 23 ตุลาคม 2026)
 
 คำนวณด้วย `round(งานที่ทำเสร็จ ÷ งานทั้งหมด × 100)` จาก checklist ในหัวข้อนี้เท่านั้น แต่ละงานมีน้ำหนักเท่ากันและนับเมื่อผ่าน Definition of done แล้ว งานที่ยังไม่เสร็จนับเป็น 0 ไม่ใช่เปอร์เซ็นต์เวลาทำงาน ความแม่นยำของโรง หรือความพร้อมใช้งานทั้ง 11 สาขา เมื่อเพิ่มขอบเขตงาน เปอร์เซ็นต์อาจลดลงได้
 
@@ -49,16 +49,16 @@ branch_file_contract: one-json-file-per-branch-one-auditorium-per-branch
 - [x] DONE-10 · Development Log, หลักฐาน และ roadmap ส่งต่องาน — DL-010, DL-018
 - [x] DONE-11 · บันทึก CoLa และคำนวณกรอบฉาย/ครอป 1.90:1 ร่วมกับ Calibration — DL-020
 - [x] NEXT-01 · Cinema schema v1 + validator และ parity baseline — DL-021
+- [x] NEXT-02 · ย้าย Paragon ไป Cinema JSON, adapter/loader และเชื่อม public flow + Calibration — DL-023
+- [x] NEXT-03 · เลือก media จาก JSON, pending guard และคง video ID ผ่าน URL/Back — DL-024
 
 ### งานที่ต้องทำต่อ
 
-- [ ] NEXT-02 · ย้าย Paragon ไป JSON หนึ่งไฟล์ต่อสาขา — NEXT-01 เสร็จแล้ว เริ่มได้
-- [ ] NEXT-03 · Media catalog ตัวเลือกวิดีโอ และ video query ใน URL — รอ NEXT-02
 - [ ] NEXT-04 · เพิ่ม IMAX Countdown และทดสอบสองคลิป — รอ NEXT-03 และไฟล์ที่อนุญาตให้ใช้
 - [ ] NEXT-05 · เพิ่มสาขาที่สองจากข้อมูลโรงจริง — รอ NEXT-02 และข้อมูลอ้างอิงสาขานั้น
 - [ ] DATA-01 · ยืนยันจำนวน 421/426 ทิศเลขที่นั่ง category และ calibrate มิติจริง — รอหลักฐานเพิ่ม ทำคู่ขนานได้
 
-**เริ่มงานถัดไป:** NEXT-02 สร้าง full renderer adapter และ loader จาก Cinema JSON v1 โดยเทียบกับ tests/baselines/paragon-v1.json; schema/validator/example และ baseline พร้อมแล้วตาม DL-021 คู่มืออยู่ที่ [Cinema Data v1](CINEMA-DATA-V1.md)
+**เริ่มงานถัดไป:** NEXT-04 ต้องรอไฟล์ Countdown ที่ได้รับอนุญาต; NEXT-05 ต้องรอข้อมูลอ้างอิงสาขาที่สอง คู่มือเพิ่มสาขาอยู่ที่ [Cinema Data v1](CINEMA-DATA-V1.md)
 
 ## 01 · ภาพรวมและขอบเขต
 
@@ -214,6 +214,9 @@ Seat contract ปัจจุบัน: `id`, `rowId`, `number` เป็น str
 | DL-020 | 2026-10-13 · IMAX CoLa และภาพ 1.90:1 | คงจอ 26.3 × 19.8 ม.; derive กรอบ 25 × 13.1579 ม. กลางจอ, ครอปบนล่างผ่าน UV, fit ภาพกว้าง, ตรวจคอนฟิกและอัปเดต Calibration/roadmap |
 | DL-021 | 2026-10-13 · Cinema Data v1 / NEXT-01 | Draft-07 + Ajv 8, relational validator, row-block Paragon example, frozen baseline และคู่มือ; ยังไม่เชื่อม JSON เข้า runtime |
 | DL-022 | 2026-10-13 · หน้าเลือกโรงแบบเกม | ภาพนิ่ง Paragon WebP, Carousel 11 สาขา, Coming Soon ดูได้, Dialog ผังโรงพร้อม pan/zoom และ state array จำกัด 1 ที่นั่ง; URL/renderer เดิม |
+| DL-023 | 2026-10-23 · NEXT-02 Paragon Cinema JSON migration | JSON → static lazy registry → loader/validator → shared runtime adapter; public EntryFlow และ dev Calibration ใช้ JSON; guards และ parity checks |
+| DL-024 | 2026-10-23 · NEXT-03 Cinema media selector | Home เลือก ready clips จาก JSON, pending option disabled, URL เก็บ video ID; legacy default, invalid/pending guard, branch/seat/video round-trip |
+| DL-025 | 2026-10-23 · ย้ายตัวเลือกวิดีโอเข้า Simulation | Home ไม่แสดง selector; เลือก/เปลี่ยนคลิปใน HUD ของ Simulation และกลับ Home โดยไม่พก video query |
 
 ### DL-009 · Performance baseline ล่าสุด
 
@@ -224,6 +227,24 @@ VP12 ที่ viewport 1440 × 900 ลด draw calls จาก 138 เหลื
 Chrome ใช้ RTX 3050 Laptop GPU ในช่วงทดสอบ 8 วินาทีหลัง warmup ได้ประมาณ 120 FPS, p95 frame interval 8.5 ms, 193 video frames และรายงาน dropped frames=0 ส่วน SwiftShader ที่บังคับ render ด้วย CPU ได้ประมาณ 17.8 FPS ที่ DPR 0.55 ตัวเลขนี้เป็น sample ของเครื่องนี้ ไม่รับประกันผลบนเครื่องอื่นหรือ sustained playback
 
 ## 08 · สถานะการตรวจสอบ
+
+### DL-025 · ตัวเลือกวิดีโออยู่ใน Simulation
+
+ย้าย catalog selector จากฟอร์ม Home ไปไว้ในแถบควบคุมวิดีโอของ Simulation; เปลี่ยนคลิปแล้ว resolve source จาก catalog และอัปเดต URL ของ Experience ทันที ส่วน URL เมื่อกลับ Home จะคงสาขา/ที่นั่งและตัด video ID ออก สคริปต์ production check ปรับให้ตรวจว่า Home ไม่มี selector และ Simulation มี selector พร้อม pending Countdown ที่ disabled.
+
+### DL-024 · NEXT-03 Media selector and URL state
+
+Implemented a catalog-driven Home dropdown; `imax-preshow` resolves to the Paragon JSON source while `imax-countdown` stays disabled and labeled as missing an asset. Only ready clip IDs resolve; unknown/pending IDs redirect to Home with an explanatory message and do not mount/load Experience media. URLs carry `video=<clip-id>`, legacy links use the cinema JSON default, and branch/seat/video selection is retained across enter/exit and seat navigation.
+
+Verification: `npm test` passed 125/125, `npm run typecheck`, production build, `npm run test:production`, and browser `videoSelection.spec.js` passed 2/2. Home/loading URL regression tests also passed after updating expectations. The full browser run reported 32/40 passing; remaining failures include cancelled Calibration download events and unrelated timeout/legacy assertions (full details are in Playwright output). Countdown remains unavailable and no asset was added.
+
+### DL-023 · NEXT-02 ย้าย Paragon ไป Cinema JSON
+
+23 ตุลาคม 2026: เชื่อม `src/data/cinemas/paragon.json` เป็นแหล่งข้อมูลฉากสาธารณะผ่าน static lazy allowlist ใน `cinemaRegistry.js`; `loadCinema.js` ตรวจ branch ID, JSON schema, สถานะสาขา/โรง และ reference status ก่อนส่งให้ `buildCinemaRuntime.js` สร้าง seats, rows, platforms, stairs, landings, architecture, environment, EXIT, camera และ video source. ไม่มีการประกอบ path จาก URL และ Coming Soon ไม่ trigger import
+
+`EntryFlow` โหลดข้อมูลแบบ async ก่อนเปิดใช้ seat controls; URL เลือกที่นั่ง/เข้า Experience ยังคงรูปแบบเดิม และความผิดพลาดโหลดจะไม่ fallback ไปฉากเก่า. หน้าแรกแยก directory metadata จาก runtime config และ sync seat/branch query หลังโหลดเสร็จ; การตรวจ canSimulate ใช้ runtime auditorium readiness ขณะที่ Coming Soon ยังถูกปิด. หน้าปรับเทียบและ Still Preview development สร้างฉากผ่าน adapter จาก JSON เดียวกัน พร้อมคง Calibration trial v1 เป็น format แยก
+
+การตรวจ: `npm test` ผ่าน 119 tests, `npm run build`, `npm run test:production` และ `git diff --check` ผ่าน; browser targeted 4 tests ผ่าน (Paragon load/Experience, JSON-load failure guard, seat-map URL state/focus). Full browser suite ไม่ได้ยืนยันครบ: run แรกมี timeout หลายกรณีและ calibration download ถูก cancel; หลังแก้ state-sync รันชุด targeted ที่เกี่ยวข้องผ่าน. NEXT-02 จำกัดเฉพาะ Paragon ไม่ได้เพิ่มสาขา ไม่ทำ video picker/Countdown และไม่ได้เปลี่ยนค่าความจุหรืออ้างความแม่นยำโรงจริง; DATA-01 ยังรอหลักฐาน
 
 ### DL-022 · หน้าแรก Carousel และผังที่นั่ง
 
@@ -331,7 +352,7 @@ Baseline จากงานแก้ประสิทธิภาพก่อ�
 
 ## 09 · Roadmap A — JSON หนึ่งไฟล์ต่อหนึ่งสาขา
 
-**สถานะ: NEXT-01 เสร็จ; การย้าย runtime ยัง Planned** Schema, validator, Paragon example และ baseline มีแล้วตาม DL-021 แต่ public ยังโหลด JavaScript เดิม ใช้สัญญาตามผู้ใช้หนึ่งสาขามีหนึ่งโรงฉาย ชื่อไฟล์ตาม branch ID เช่น paragon.json
+**สถานะ: NEXT-02 เสร็จสำหรับ Paragon; ยังไม่เพิ่มสาขาใหม่** Schema, validator, example และ baseline ตาม DL-021 ถูกเชื่อมกับ runtime ใน DL-023 โดยใช้สัญญาหนึ่งสาขามีหนึ่งโรงฉาย ชื่อไฟล์ตาม branch ID เช่น paragon.json
 
 ### โครงสร้างไฟล์ที่เสนอ
 
@@ -388,11 +409,11 @@ Acceptance: รหัส/ตำแหน่ง/กล้องยังเท่
 
 ## 10 · Roadmap B — เลือก IMAX Preshow / IMAX Countdown
 
-**สถานะ: Planned / ยังไม่ได้ทำ** ผู้ใช้ต้องการสองตัวเลือก โดย IMAX Preshow ใช้ไฟล์ปัจจุบัน Infinite Worlds.mp4 ส่วน IMAX Countdown ยังไม่มีไฟล์ใน public/media ณ ตอนตรวจ workspace ห้ามอ้างว่า Countdown พร้อมแล้วหรือดาวน์โหลดแทนโดยไม่มีแหล่งที่อนุญาต
+**สถานะ: NEXT-03 เสร็จ / NEXT-04 รอไฟล์** Home มีตัวเลือก media จาก Paragon JSON แล้ว; IMAX Preshow ใช้ source ที่ระบุใน catalog ส่วน IMAX Countdown ยังไม่มีไฟล์ใน public/media ณ ตอนตรวจ workspace จึง disabled และห้ามอ้างว่าพร้อมหรือดาวน์โหลดแทนโดยไม่มีแหล่งที่อนุญาต
 
 ### Media catalog ที่เสนอ
 
-ตัวอย่าง excerpt ของข้อมูลอนาคต ไม่ใช่ JSON configuration ที่โหลดได้ทั้งโรง และค่า src=null ของ Countdown เป็นการระบุ pending โดยชัดเจน ชื่อ Preshow เป็นชื่อสำหรับ UI ตามผู้ใช้ ไม่ได้ยืนยันว่า Infinite Worlds เป็นสื่อทางการของ IMAX
+ตัวอย่าง excerpt นี้เป็นแนวคิดเดิม; โครงสร้างใช้งานจริงอยู่ใน `src/data/cinemas/paragon.json` ภายใต้ `auditorium.media.clips` และใช้ status `ready`/`pending`. ค่า src=null ของ Countdown ระบุ pending โดยชัดเจน ชื่อ Preshow เป็นชื่อ UI ตามผู้ใช้ ไม่ได้ยืนยันว่า Infinite Worlds เป็นสื่อทางการของ IMAX
 
 ```json
 {
@@ -431,7 +452,14 @@ Source change ต้อง pause/release ของเก่า reset loading/tim
 
 ไฟล์วิดีโอเพิ่มขนาด static deployment ปัจจุบัน Infinite Worlds ประมาณ 26.8 MB เก็บ provenance/codec/duration/aspect ที่ตรวจได้และคำนึงถึงการเสิร์ฟ byte ranges/cache ตอนเผยแพร่ ไม่จำเป็นต้องเปลี่ยนเป็น streaming service ในเฟสนี้
 
-### Acceptance ของตัวเลือกวิดีโอ
+### NEXT-03 ที่ทำแล้ว และ NEXT-04 ที่ยังเหลือ
+
+- [x] ตัวเลือก Home สร้างจากคลิปใน Cinema JSON; default มาจาก `defaultVideoId`; pending แสดง disabled พร้อมข้อความว่ายังไม่มีไฟล์
+- [x] URL เก็บ ID เท่านั้น; URL เก่า resolve default; ID unknown/pending กลับ Home พร้อมข้อความ โดยไม่โหลด Experience/video
+- [x] เข้า/ออกและเปลี่ยน active seat คง video/seat IDs; browser regression ครอบคลุม Paragon multi-seat และ invalid pending
+- [ ] เพิ่ม Countdown เฉพาะเมื่อมี asset ที่อนุญาตและตรวจ codec/duration/aspect/provenance
+
+### Acceptance ของการเปิดใช้ Countdown (NEXT-04)
 
 - ทั้งสองคลิปมีไฟล์จริงและที่มาอนุญาตก่อนประกาศพร้อม; ชื่อ/ID ไม่ซ้ำและ default มีอยู่
 - กดเลือก/Enter/direct URL เปิดคลิปตรงกับ ID; URL เก่าใช้ Preshow; invalid ID และ Coming Soon ถูก guard
@@ -446,13 +474,13 @@ Source change ต้อง pause/release ของเก่า reset loading/tim
 | --- | --- | --- | --- | --- | --- |
 | เสร็จแล้ว | ISSUE-PARAGON-001 | ทุกเก้าอี้หันตรงทาง −Z; โต๊ะ VP ถูกเอาออกใน DL-013 | เสร็จแล้ว | คำยืนยันผู้ใช้ + ตรวจ mesh/instance matrices | ภาพก่อน–หลัง, POV 13 แถว และผลทดสอบบันทึกในหัวข้อ 08 |
 | เสร็จแล้ว | NEXT-01 | Cinema schema v1 + parity baseline | เสร็จ · DL-021 | ISSUE-PARAGON-001 แก้และตรวจแล้ว | Schema/validator/example/baseline พร้อม; แยก trial JSON ได้ |
-| 1 | NEXT-02 | ย้าย Paragon ไป JSON ต่อสาขา | ยังไม่เริ่ม · เริ่มได้ | NEXT-01 เสร็จแล้ว | Paragon behavior/coordinates เท่าเดิม, guards ผ่าน |
-| 3 | NEXT-03 | Media catalog + dropdown + video query | ยังไม่เริ่ม | NEXT-02 | Preshow เลือก/คงค่าได้; Countdown pending ชัดเจน |
-| 4 | NEXT-04 | ใส่ไฟล์ Countdown และทดสอบ | รอไฟล์และงานก่อนหน้า | NEXT-03 + Authorized Countdown asset | สองคลิปเล่นจริง สัดส่วนและ lifecycle ผ่าน |
+| เสร็จแล้ว | NEXT-02 | ย้าย Paragon ไป JSON ต่อสาขา | เสร็จ · DL-023 | NEXT-01 เสร็จแล้ว | Parity กับ baseline, public loader/URL/guards และ Calibration JSON v1 ผ่าน |
+| เสร็จแล้ว | NEXT-03 | Media catalog + dropdown + video query | เสร็จ · DL-024 | NEXT-02 | Preshow resolve; Countdown disabled; legacy/invalid URL และ round-trip ทดสอบแล้ว |
+| 4 | NEXT-04 | ใส่ไฟล์ Countdown และทดสอบ | รอ asset ที่ได้รับอนุญาต | NEXT-03 + Authorized Countdown asset | สองคลิปเล่นจริง สัดส่วนและ lifecycle ผ่าน |
 | 5 | NEXT-05 | เพิ่มสาขาที่สองจาก references | รอข้อมูลและงานก่อนหน้า | NEXT-02 + ข้อมูลสาขานั้น | JSON ใหม่ใช้ renderer เดิม ไม่มีสมมติผัง Paragon |
 | คู่ขนาน | DATA-01 | แก้ช่องว่าง 421/426 และ calibrate | รอหลักฐานเพิ่ม | หลักฐานเพิ่ม | แก้ตามหลักฐาน ไม่เดาที่นั่งที่หาย |
 
-Roadmap เป็นรายการพร้อมลงมือในงานถัดไป การสร้าง log นี้ไม่ได้ทำ JSON migration หรือ video dropdown แล้ว และไม่ได้เปิด Coming Soon ให้ใช้งาน
+Roadmap สถานะล่าสุดรวม NEXT-03 แล้ว; NEXT-04 ยังไม่เริ่มเพราะไม่มี asset และ NEXT-05 ไม่ได้เปิด Coming Soon ให้ใช้งาน
 
 ## 12 · คู่มือเพิ่มสาขาหลังย้าย JSON
 
@@ -469,7 +497,7 @@ One-file-per-branch เป็นข้อกำหนดที่ผู้ใช
 
 เริ่มงานใหม่โดยอ่านเอกสารนี้ แล้วอ่านไฟล์จริงที่เกี่ยวข้องเพราะโค้ดอาจใหม่กว่า snapshot ตรวจสถานะ planned/implemented ก่อนกล่าวอ้าง และอ่าน reference-analysis.md เมื่อแตะ geometry/ข้อมูลโรง
 
-**เริ่มจาก NEXT-02:** ใช้ Cinema schema/validator/example ตาม DL-021 และเทียบ baseline frozen ก่อนเชื่อม loader/renderer; DATA-01 ยังรอหลักฐานเพิ่ม
+**สถานะล่าสุด:** NEXT-03 เสร็จตาม DL-024; NEXT-04 รอ authorized Countdown asset, NEXT-05 รอข้อมูลสาขาใหม่ และ DATA-01 ยังรอหลักฐานเพิ่ม
 
 - รักษาภาษาไทย Prompt สำหรับข้อความหลัก และ Google Sans สำหรับข้อความเล็ก/หมายเหตุ โทนน้ำเงินและ viewport UI; ห้ามคืน Fullscreen หรือ file picker โดยไม่ได้รับคำขอ
 - รักษา stable IDs และ URL/focus lifecycle; seat map/Combo/camera ต้องใช้ข้อมูลเดียวกัน

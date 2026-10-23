@@ -10,13 +10,17 @@ import { appendSeatId, MAX_SELECTED_SEATS } from "../simulator/seatSelection";
 import { Armchair, ArrowRight, Map } from "lucide-react";
 import "../entry.css";
 
-export default function Home({ catalog, initialBranch, initialSeatIds = [], initialDraft = "", onEnter, returned = false, returnFocus = "combobox", notice = "", synthetic = false }) {
+export default function Home({ catalog, initialBranch, initialSeatIds = [], initialDraft = "", onEnter, onBranchChange, returned = false, returnFocus = "combobox", notice = "", synthetic = false, loading = false, loadingError = false }) {
   const [branchId, setBranchId] = useState(initialBranch || catalog[0].id);
+  useEffect(() => { setBranchId(initialBranch || catalog[0].id); }, [initialBranch]);
   const branch = catalog.find((b) => b.id === branchId) || catalog[0];
-  const auditorium = branch.auditoriums.find((a) => canSimulate(branch, a));
+  const auditorium = loading || loadingError ? null : branch.auditoriums.find((a) => canSimulate(branch, a));
   const seats = auditorium?.config.seats || [], ready = Boolean(auditorium);
   const [value, setValue] = useState(initialDraft);
   const [selectedSeatIds, setSelectedSeatIds] = useState(initialSeatIds);
+  const initialSeatKey = initialSeatIds.join("\u0000");
+  useEffect(() => { setSelectedSeatIds(initialSeatIds); }, [initialSeatKey]);
+  useEffect(() => { setValue(initialDraft); }, [initialDraft]);
   const [selectionSource, setSelectionSource] = useState(returnFocus);
   const [mapOpen, setMapOpen] = useState(false), [error, setError] = useState("");
   const [feedback, setFeedback] = useState("");
@@ -51,7 +55,7 @@ export default function Home({ catalog, initialBranch, initialSeatIds = [], init
     <div className="entry-toolbar"><LanguageToggle /></div>
     <section className="entry-panel" aria-labelledby="entry-title">
       <div className="entry-heading"><h1 id="entry-title">Seat View Simulator</h1><p className="entry-description">เลือกที่นั่ง แล้วสัมผัสมุมมองก่อนเข้าโรง</p></div>
-      <CinemaCarousel catalog={catalog} selectedId={branch.id} onSelect={(id) => { if (id !== branch.id) { setBranchId(id); setValue(""); setSelectedSeatIds([]); setError(""); setFeedback(""); setShowNotice(false); setSelectionSource("combobox"); } }} />
+      <CinemaCarousel catalog={catalog} selectedId={branch.id} onSelect={(id) => { if (id !== branch.id) { setBranchId(id); setValue(""); setSelectedSeatIds([]); setError(""); setFeedback(""); setShowNotice(false); setSelectionSource("combobox"); onBranchChange?.(id); } }} />
       <form onSubmit={submit} noValidate>
         <label htmlFor="seat-code"><Armchair size={16} aria-hidden="true" />เลือกหรือพิมพ์ที่นั่ง</label>
         <p className="entry-seat-help">พิมพ์รหัสที่นั่ง หรือเลือกจากผังโรง</p>
@@ -61,7 +65,7 @@ export default function Home({ catalog, initialBranch, initialSeatIds = [], init
           <button ref={mapButton} className="open-seat-map" type="button" disabled={!ready} onClick={() => setMapOpen(true)}><Map size={18} aria-hidden="true" /><span>เลือกจากผังโรง</span></button></div>
         {!ready && <p id="seat-hint" className="entry-seat-status">{branch.status === "coming-soon" ? "สาขานี้ยังไม่พร้อมใช้งาน (Coming Soon)" : "กำลังรอข้อมูลที่นั่งของสาขานี้"}</p>}
         {ready && <p id="seat-selection-count" className="entry-seat-status" aria-live="polite">เลือกแล้ว {selectedSeatIds.length} / {MAX_SELECTED_SEATS} — {selectedSeatIds.length === MAX_SELECTED_SEATS ? "ลบที่นั่งเดิมเพื่อเพิ่ม" : "กด Enter เพื่อเพิ่ม"}</p>}
-        {error && <p id="seat-error" role="alert" className="entry-error">{error}</p>}{(feedback || (showNotice && notice)) && <p role="status" className="entry-error">{feedback || notice}</p>}
+        {error && <p id="seat-error" role="alert" className="entry-error">{error}</p>}{loading && <p role="status" className="entry-error">กำลังโหลดข้อมูลสาขา…</p>}{loadingError && <p role="alert" className="entry-error">{notice}</p>}{(feedback || (showNotice && notice && !loadingError)) && <p role="status" className="entry-error">{feedback || notice}</p>}
         <button className="entry-submit" type="submit" disabled={!ready}>ดูมุมมองจากที่นั่ง <ArrowRight size={18} aria-hidden="true" /></button>
         {synthetic && <p className="entry-dev-note">ข้อมูลทดสอบเท่านั้น — ไม่ใช่โรงภาพยนตร์จริง</p>}
         {branch.id === "paragon" && ready && <p className="entry-dev-note">ต้นแบบจากผังที่นั่ง — ตำแหน่งและจำนวนที่นั่งบางส่วนยังเป็นค่าประมาณ</p>}
