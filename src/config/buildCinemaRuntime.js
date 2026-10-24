@@ -3,6 +3,7 @@ import { buildArchitecture } from "./paragon/architecture";
 import { buildEnvironment } from "./paragon/environment";
 import { cameraDefaults } from "./camera";
 import { normalizeCalibration, calibrationDefaults } from "./paragon/calibration";
+import { publicPath } from "../utils/publicPath";
 
 const clone = value => value == null ? value : structuredClone(value);
 
@@ -86,7 +87,11 @@ export function buildCinemaRuntime(cinema, calibrationOverrides = null) {
   const seats = expanded.seats;
   const appearance = { ...source.appearance, parts: source.appearance.parts };
   const { geometry, environment } = buildGeometry(source, seats, rows, appearance);
-  const video = source.media?.clips.find(clip => clip.id === source.media.defaultVideoId);
+  const media = clone(source.media);
+  media?.clips.forEach(clip => {
+    if (clip.src) clip.src = publicPath(clip.src);
+  });
+  const video = media?.clips.find(clip => clip.id === media.defaultVideoId);
   const config = { id: source.id, name: source.name, referenceStatus: source.referenceStatus, screen: clone(source.screen), projection: clone(source.projection), geometry, seats, environment, calibration, camera: { ...cameraDefaults, ...clone(source.camera), target: source.camera.target.kind === "screen-center" ? clone(source.screen.position) : clone(source.camera.target.position) } };
-  return { branch: { id: cinema.branchId, nameTh: cinema.nameTh, name: cinema.name, brand: cinema.brand, location: cinema.location, status: cinema.status, referenceStatus: source.referenceStatus, features: clone(cinema.features), source: cinema.source, verifiedAt: cinema.verifiedAt }, auditorium: { id: source.id, name: source.name, config, media: clone(source.media), videoSrc: video?.src ?? null } };
+  return { branch: { id: cinema.branchId, nameTh: cinema.nameTh, name: cinema.name, brand: cinema.brand, location: cinema.location, status: cinema.status, referenceStatus: source.referenceStatus, features: clone(cinema.features), source: cinema.source, verifiedAt: cinema.verifiedAt }, auditorium: { id: source.id, name: source.name, config, media, videoSrc: video?.src ?? null } };
 }
